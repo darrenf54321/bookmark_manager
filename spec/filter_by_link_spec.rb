@@ -2,17 +2,18 @@ require_relative 'spec_helper'
 
 feature 'Tag filter' do
   scenario 'it filters by tags' do
+    Link.create(url: 'http://www.makersacademy.com', title: 'Makers Academy', tags: [Tag.first_or_create(name: 'education')])
     visit '/links/new'
     fill_in 'title', with: 'Bubble Smith'
     fill_in 'url', with: 'http://http://www.deliaonline.com'
     fill_in 'tags', with: 'Bubbles'
     click_button 'Add'
-    click_button 'Filter'
     fill_in 'filter', with: 'Bubbles'
-    click_button 'Confirm'
-    expect(current_path).to eq '/filter'
-    within 'ul#filter' do
+    click_button 'Filter'
+    expect(page.status_code).to eq(200)
+    within 'ul#links' do
       expect(page).to have_content('Title: Bubble Smith')
+      expect(page).not_to have_content('Title: Makers Academy')
     end
   end
 end
