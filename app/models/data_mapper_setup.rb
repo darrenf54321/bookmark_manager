@@ -9,4 +9,3 @@ DataMapper.setup(:default, ENV['DATABASE_URL'] || "postgres://localhost/bookmark
 # Let's check that everything we wrote in our models was OK
 DataMapper.finalize
 # And let's build any new columns or tables we added
-DataMapper.auto_upgrade!
