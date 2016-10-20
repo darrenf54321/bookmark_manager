@@ -18,7 +18,6 @@ feature "user sign-up" do
     fill_in :password, with: 'robin'
     fill_in :password_confirmation, with: 'ro'
     click_button "ok"
-    expect(current_path).to eq '/register'
-    expect(page).to have_content "Your passwords do not match, please try again."
+    expect(page).to_not have_content "Welcome batman@hotmail.com"
   end
 end
