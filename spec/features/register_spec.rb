@@ -1,14 +1,26 @@
 require 'spec_helper'
 
 feature "user sign-up" do
-  scenario "the user registers with a password" do
+  scenario "the user registers with a password and password confirmation" do
     visit "/"
     click_button "Register"
     expect(current_path).to eq '/register'
     fill_in :email, with: 'batman@hotmail.com'
     fill_in :password, with: 'robin'
+    fill_in :password_confirm, with: 'robin'
     click_button "ok"
     expect(page).to have_content "Welcome batman@hotmail.com"
+  end
 
+  scenario "the user registers with a password and received an error if confirmation doesn't match" do
+    visit "/"
+    click_button "Register"
+    expect(current_path).to eq '/register'
+    fill_in :email, with: 'batman@hotmail.com'
+    fill_in :password, with: 'robin'
+    fill_in :password_confirm, with: 'ro'
+    click_button "ok"
+    expect(current_path).to eq '/register'
+    expect(page).to have_content "Your passwords do not match, please try again."
   end
 end
