@@ -32,6 +32,7 @@ feature 'filtering links by tags' do
     fill_in :title, with: 'Kitten pics'
     fill_in :url, with: 'https://google.com/images?q=cute%20kittens'
     fill_in :tags, with: 'kittens, cute'
+    click_button 'Add Link'
 
     expect(page).to have_link('kittens', href: '/tags/kittens')
     expect(page).to have_link('cute', href: '/tags/cute')
