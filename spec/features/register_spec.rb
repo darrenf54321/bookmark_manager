@@ -2,22 +2,15 @@ require 'spec_helper'
 
 feature "user sign-up" do
   scenario "the user registers with a password and password confirmation" do
-    visit "/"
-    click_button "Register"
-    fill_in :email, with: 'batman@hotmail.com'
-    fill_in :password, with: 'robin'
-    fill_in :password_confirmation, with: 'robin'
-    click_button "ok"
+    sign_up(email: "batman@hotmail.com", password: "123", password_confirmation: "123")
     expect(page).to have_content "Welcome batman@hotmail.com"
   end
 
-  scenario "the user registers with a password and received an error if confirmation doesn't match" do
-    visit "/"
-    click_button "Register"
-    fill_in :email, with: 'batman@hotmail.com'
-    fill_in :password, with: 'robin'
-    fill_in :password_confirmation, with: 'ro'
-    click_button "ok"
-    expect(page).to_not have_content "Welcome batman@hotmail.com"
+  scenario 'with a password that does not match' do
+    expect { sign_up(email: "cat@hotmail.com", password: "123", password_confirmation: "456")}.not_to change(User, :count)
+    expect(current_path).to eq('/register')
+    expect(page).to have_content 'Password and confirmation password do not match'
   end
+
+
 end
